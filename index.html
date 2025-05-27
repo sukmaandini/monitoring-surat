@@ -175,9 +175,10 @@
         .result-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
+            gap: 20px;
         }
 
         .result-item:last-child {
@@ -188,12 +189,38 @@
             font-weight: 600;
             color: #555;
             min-width: 180px;
+            flex-shrink: 0;
         }
 
         .result-value {
             color: #333;
-            text-align: right;
             flex: 1;
+            word-break: break-word;
+        }
+
+        .link-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .link-button:before {
+            content: "📎 ";
+            margin-right: 5px;
         }
 
         .status-badge {
@@ -272,15 +299,11 @@
             .result-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 5px;
+                gap: 8px;
             }
 
             .result-label {
                 min-width: auto;
-            }
-
-            .result-value {
-                text-align: left;
             }
         }
     </style>
@@ -410,6 +433,21 @@
         function showResult(data) {
             const statusClass = getStatusClass(data.status);
             
+            // Function to format lampiran as clickable link
+            function formatLampiran(lampiran) {
+                if (!lampiran || lampiran === '' || lampiran === '-') {
+                    return '-';
+                }
+                
+                // Check if it's a URL
+                if (isValidUrl(lampiran)) {
+                    return `<a href="${lampiran}" target="_blank" class="link-button">Buka Lampiran</a>`;
+                } else {
+                    // If it's not a URL, display as text
+                    return lampiran;
+                }
+            }
+            
             resultCard.innerHTML = `
                 <div class="result-header">
                     <h3>📄 Detail Surat Permintaan Data</h3>
@@ -444,7 +482,7 @@
                 </div>
                 <div class="result-item">
                     <span class="result-label">Lampiran Surat Keluar:</span>
-                    <span class="result-value">${data.lampiransuratkeluar || '-'}</span>
+                    <span class="result-value">${formatLampiran(data.lampiransuratkeluar)}</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Status:</span>
@@ -455,6 +493,15 @@
             `;
             
             resultSection.style.display = 'block';
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
         }
 
         function showError(message) {
