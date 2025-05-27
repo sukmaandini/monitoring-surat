@@ -338,7 +338,7 @@
 
     <script>
         // Ganti dengan URL Google Apps Script Anda
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhp8IPItC3f6aHEecA1SPf8J_LswXbdrggfT45OjtrwbLGNPNoOVn6NG0coaiLQMN4LQ/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4mnM2hWkmnAW9ZQs2lt_N8oa7D1ZdnS502ke2gGUfInCCBpD-UoqKbCG_rV8pZnsPog/exec';
 
         const searchForm = document.getElementById('searchForm');
         const searchValue = document.getElementById('searchValue');
@@ -441,6 +441,10 @@
                 <div class="result-item">
                     <span class="result-label">Tanggal Penyelesaian:</span>
                     <span class="result-value">${formatDate(data.tanggalPenyelesaian)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Lampiran Surat Keluar:</span>
+                    <span class="result-value">${formatDate(data.lampiransuratkeluar)}</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Status:</span>
